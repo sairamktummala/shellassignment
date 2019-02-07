@@ -3,10 +3,11 @@ from .ls import lsfun
 from .lsl import lslfun
 from .wc import wcfun
 from .tail import *
-from .remove import remove
+from .rm import *
 from .rmdir import removedir
 from .pwd import pwdfun
 from .mkdir import makedir
 from .cd import *
 from .mv import mvfun
 from .cp import cpfun
+from .lsa import lsafun

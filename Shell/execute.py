@@ -13,6 +13,9 @@ if __name__ == '__main__':
             if(len(cmd) > 1):
                 if(cmd[1]=='l'):
                     lslfun()
+                elif(cmd[1]=='a'):
+                    lsafun()
+
             else:
                 lsfun()
         if(cmd[0]=='wc'):
@@ -23,7 +26,7 @@ if __name__ == '__main__':
             else:
                 tailfun1(cmd[1])
         if(cmd[0]=='rm'):
-            remove(cmd[1])
+            rm(cmd[1])
         if(cmd[0]=='rmdir'):
             removedir(cmd[1])
         if(cmd[0]=='pwd'):
