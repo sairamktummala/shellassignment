@@ -1,4 +1,4 @@
-from .cat import catfun
+from .cat import *
 from .ls import lsfun
 from .lsl import lslfun
 from .wc import wcfun

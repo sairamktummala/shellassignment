@@ -8,14 +8,16 @@ if __name__ == '__main__':
         if(cmd[0]=='exit'):
             break 
         if(cmd[0]=='cat'):
-            catfun(cmd[1])
+            if(len(cmd)>2):
+                catfun2(cmd)
+            else:
+                catfun(cmd[1])       
         if(cmd[0]=='ls'):
             if(len(cmd) > 1):
                 if(cmd[1]=='l'):
                     lslfun()
                 elif(cmd[1]=='a'):
                     lsafun()
-
             else:
                 lsfun()
         if(cmd[0]=='wc'):

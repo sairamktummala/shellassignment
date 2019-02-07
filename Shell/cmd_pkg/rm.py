@@ -4,7 +4,7 @@ import shutil
 import pathlib
 import fnmatch
 def rm(param):
-    if(param == 'r' ):
+    if(param == 'r*' ):
         removeAllFilesInDirectory()
     if (param.find('*')|param.startswith('*')):
         removeSpecificFiles(param)
@@ -13,16 +13,14 @@ def rm(param):
 
 
 def removeAllFilesInDirectory():
-    sys.stdout.write('i am inside the loop')
     currentDirectory=pathlib.Path('.')
     shutil.rmtree(currentDirectory)
         
 def removeSpecificFiles(param):
-    listOfFiles=os.listdir('.')
-    pattern=param
-    for entry in listOfFiles:
-        if fnmatch.fnmatch(entry,pattern):
-            sys.stdout.write(entry)
+    Filesindirectory=os.listdir('.')
+    for file in Filesindirectory:
+        if fnmatch.fnmatch(file,param):
+            os.remove(file)
 
     
 def removeFile(file):
