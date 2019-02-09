@@ -50,3 +50,5 @@ if __name__ == '__main__':
             mvfun(cmd[1],cmd[2])
         if(cmd[0]=='cp'):
             cpfun(cmd[1],cmd[2])
+        if(cmd[0]=='less'):
+            lessfun(cmd[1])

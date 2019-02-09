@@ -11,3 +11,4 @@ from .cd import *
 from .mv import mvfun
 from .cp import cpfun
 from .lsa import lsafun
+from .less import lessfun
