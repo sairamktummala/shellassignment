@@ -14,3 +14,4 @@ from .lsa import *
 from .less import *
 from .head import *
 from .grep import *
+from .exit import *

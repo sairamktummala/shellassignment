@@ -4,20 +4,38 @@ import re
 retstrng = ""
 def grepfun(*args):
     if(args[1]=='-l'):
-        patter = 2
+        pattern=args[2]
+        grepListing(pattern)
     else:
         pattern=args[1]
         stri =""
         for i in args[2:]:
             stri+=grepcheckfile(i,pattern)
         sys.stdout.write(stri)
+def grepListing(pattern):
+    path=os.listdir('.')
+    strinf=""
+    for file in path:
+        if os.path.isfile(file):
+            with open(file) as fvar:
+                for lines in fvar:
+                    line = re.findall(pattern,lines)
+                    if not line:
+                        pass 
+                    else:
+                        tempstring = file
+                        strinf+=tempstring
+                        strinf+=('\n')
+        else:
+            pass
+    sys.stdout.write(strinf)
+
 
 def grepcheckfile(file,pattern):
     if os.path.isfile(file):
         strin2 = grepGetThelist(file,pattern)
         return strin2
     elif os.path.exists(file):
-        sys.stdout.write("It is a directory")
         strngh = " "
         return strngh
     else:
