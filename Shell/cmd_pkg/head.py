@@ -1,27 +1,22 @@
 import sys
-def tailfun1(file):
+def headfun1(file):
     linelist = []
     with open(file) as fvar:
-        lineCount=0
+        lineCount = 0
         for lines in fvar:
             linelist.append(lines)
             lineCount += 1
-    tempCOunt = int(lineCount) - 10
-    linelist = linelist[tempCOunt:]
+    linelist = linelist[:10]
     for l in linelist:
         sys.stdout.write(l)
-    sys.stdout.write('\n')
 
-def tailfun2(file,count):
+def headfun2(file,count):
     linelist = []
     with open(file) as fvar:
         lineCount=0
         for lines in fvar:
             linelist.append(lines)
             lineCount += 1
-    tempCOunt = int(lineCount) - int(count)
-    linelist = linelist[int(tempCOunt):]
+    linelist = linelist[:int(count)]
     for l in linelist:
-        sys.stdout.write(l)
-    sys.stdout.write('\n')
-  
+        sys.stdout.write(l)  

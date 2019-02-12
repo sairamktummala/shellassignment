@@ -21,12 +21,17 @@ if __name__ == '__main__':
             else:
                 lsfun()
         if(cmd[0]=='wc'):
-            wcfun(cmd[1])
+            wcfun(cmd)
         if(cmd[0]=='tail'):
             if(len(cmd) > 2):
                 tailfun2(cmd[1],cmd[2])
             else:
                 tailfun1(cmd[1])
+        if(cmd[0]=='head'):
+            if(len(cmd) > 2):
+                headfun2(cmd[1],cmd[2])
+            else:
+                headfun1(cmd[1])
         if(cmd[0]=='rm'):
             rm(cmd[1])
         if(cmd[0]=='rmdir'):
@@ -52,3 +57,5 @@ if __name__ == '__main__':
             cpfun(cmd[1],cmd[2])
         if(cmd[0]=='less'):
             lessfun(cmd[1])
+        if(cmd[0]=='grep'):
+            grepfun(*cmd)

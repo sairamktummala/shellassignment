@@ -9,15 +9,23 @@ def lessfun(file):
     if os.path.exists(file):
         with open(file) as var:
             for line in var:
-                if columns > len(line):
+                if columns > len(line) and row_count <= rows:
                     sys.stdout.write(line)
+                    row_count+=1
                 else:
-                    while columns <= len(line):
-                        columns+=columns
-                        sys.stdout.write('writing from else')
-                        sys.stdout.write(str(line[:columns]))
-                        
-                        
+                    x=0
+                    y=columns
+                    length = len(line)
+                    flag = 0 
+                    while y <= length and flag == 0 and row_count <= rows:
+                        sys.stdout.write(str(line[x:y]))
+                        row_count+=1
+                        if y == length:
+                            flag=1
+                        x=y
+                        y+=x
+                        if y > length:
+                            y=length                       
     else:
         sys.stdout.write(file)
         sys.stdout.write(': Doesnot exist')
