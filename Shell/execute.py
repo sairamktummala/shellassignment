@@ -1,23 +1,20 @@
 #!/usr/bin/env python
 from cmd_pkg.commands import *
 import sys
-def executeCommand(cmd):
+
+def executeCommand(cmd,history):
+    history+=cmd
+    history+=('\n')
     cmd = cmd.split()
     if(cmd[0]=='exit'):
         exitfun()
     if(cmd[0]=='cat'):
-        if(len(cmd)>2):
-            catfun2(cmd)
-        else:
-            catfun(cmd[1])
+        catfun(cmd)
     if(cmd[0]=='ls'):
-        if(len(cmd) > 1):
-            if(cmd[1]=='l'):
-                lslfun()
-            elif(cmd[1]=='a'):
-                lsafun()
-            else:
-                lsfun()
+        if(len(cmd)>1):
+            lsflag(cmd)
+        else:
+            lsfun()
     if(cmd[0]=='wc'):
         wcfun(cmd)
     if(cmd[0]=='tail'):
@@ -51,18 +48,27 @@ def executeCommand(cmd):
                 cdfun3(cmd[1])
     if(cmd[0]=='mv'):
         mvfun(cmd[1],cmd[2])
+        historyfun(cmd,0)
     if(cmd[0]=='cp'):
         cpfun(cmd[1],cmd[2])
     if(cmd[0]=='less'):
         lessfun(cmd[1])
     if(cmd[0]=='grep'):
         grepfun(*cmd)
+    if(cmd[0]=='history'):
+        historyfun(cmd,history)
+    if(cmd[0].startswith('!')):
+        sys.stdout.write('has!')
+    if(cmd[0]=='sort'):
+        tempstr = sortfun(cmd[1])
+    sys.stdout.write(tempstr)
 
-if __name__ == '__main__':  
+if __name__ == '__main__':
+    history=[]
     while True:
         cmd = input('% ')
         if '|' in cmd or '<' in cmd or '>' in cmd or '>>' in cmd:
             sys.stdout.write('idi done')
         else:
-            executeCommand(cmd)
-
+            executeCommand(cmd,history)
+   

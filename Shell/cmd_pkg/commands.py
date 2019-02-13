@@ -1,6 +1,5 @@
 from .cat import *
 from .ls import *
-from .lsl import *
 from .wc import *
 from .tail import *
 from .rm import *
@@ -10,8 +9,9 @@ from .mkdir import *
 from .cd import *
 from .mv import *
 from .cp import *
-from .lsa import *
 from .less import *
 from .head import *
 from .grep import *
 from .exit import *
+from .history import *
+from .sort import *
