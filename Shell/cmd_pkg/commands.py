@@ -15,3 +15,4 @@ from .grep import *
 from .exit import *
 from .history import *
 from .sort import *
+from .who import *

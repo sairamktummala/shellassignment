@@ -1,4 +1,10 @@
 import sys
+def headfun(command):
+        if len(command)>2 :
+                headfun2(command[1],command[2])
+        else:
+                headfun1(command[1])
+
 def headfun1(file):
     linelist = []
     with open(file) as fvar:

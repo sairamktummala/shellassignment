@@ -1,6 +1,7 @@
 import os
 import sys
-def makedir(file):
+def makedir(command):
+    file=command[1]
     if not os.path.exists(file):
         os.makedirs(file)
     else:

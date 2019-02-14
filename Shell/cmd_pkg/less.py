@@ -1,6 +1,7 @@
 import os
 import sys
-def lessfun(file):
+def lessfun(command):
+    file = command[1]
     size=os.popen('stty size','r').read().split()
     rows = int(size[0])
     columns = int(size[1])

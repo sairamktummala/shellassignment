@@ -1,4 +1,11 @@
 import sys
+def tailfun(command):
+    if len(command)>2 :
+        tailfun2(command[1],command[2])
+    else:
+        tailfun1(command[1])
+
+
 def tailfun1(file):
     linelist = []
     with open(file) as fvar:

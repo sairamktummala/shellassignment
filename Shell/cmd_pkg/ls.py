@@ -3,6 +3,8 @@ import sys
 import stat
 import time
 from stat import *
+import time,subprocess,shutil
+
 def lsfun():
     filename=os.listdir('.')
     for name in filename:
@@ -18,42 +20,92 @@ def lsflag(cmd):
                 lslfun()
         elif(cmd[1]=='-a'):
                 lsafun()
+        elif(cmd[1]=='-h'):
+                lshfun()
 
 def lsafun():
     dir=os.listdir('.')
     for name in dir:
             sys.stdout.write(name)
-            sys.stdout.write('\n')    
+            sys.stdout.write('\n')
+ 
 def lslfun():
-    path=os.getcwd()
-    files=[]
-    files=os.listdir(path)
-    for x in range(0,len(files)):
-        filename=files[x]
-        checkMode(filename)
-        #s = str(oct(os.stat(filename)[stat.ST_MODE]))
-        #sys.stdout.write(s)
-        sys.stdout.write("\n")
-        """
-        digits=[int(s[0]),int(s[1]),int(s[2])]
-        lookup=['','x','w','wx','r','rx','rw','rwx']
-        uout=lookup[digits[0]]
-        gout=lookup[digits[1]]
-        oout=lookup[digits[2]]
-        mode=str(uout+'-'+gout+'-'+oout)       
-        filesize=str(os.stat(files[x]).st_size)
-        timeMod=str(time.ctime(os.path.getmtime(filename)))
-        #sys.stdout.write(filesize+'\t\t\t'+mode+'\t\t\t'+timeMod+'\t'+filename)
-        sys.stdout.write("\n")
-        """
-def checkMode(filename):
-    mode=os.stat(filename).st_mode
-    perm=''
-    if S_ISDIR(mode):
-        perm='d'
-        if(stat.S_IRWXG):
-            if(stat.S_IWGRP):
-                perm='-x'
-  
-    sys.stdout.write(perm)
-    sys.stdout.write(filename)
+        path=os.getcwd()
+        files=os.listdir(path)
+        for file in files:
+                printablestr=""
+                mode=os.stat(file).st_mode
+                perm=''
+                if S_ISDIR(mode):
+                        perm='d'
+                else:
+                        perm='-'
+                s = str(oct(os.stat(file)[stat.ST_MODE])[-3:])
+                permission={'0' :'---', '1' : '--x', '2' : '-w-','3' : '-wx','4':'r--','5':'r-x','6':'rw-','7':'rwx'}
+                userperm=permission[s[0]]
+                groupperm=permission[s[1]]
+                otherperm=permission[s[2]]
+                permstring=perm+userperm+groupperm+otherperm
+                printablestr+=permstring             
+                
+                stlin=str(os.stat(file)[stat.ST_NLINK])
+                printablestr+=stlin
+                printablestr+='\t'
+
+                size= str(os.stat(file).st_size)
+                printablestr+=size
+
+                printablestr+='\t'
+
+                modifiedTime=str(time.ctime(os.path.getmtime(file)))
+                printablestr+=modifiedTime
+
+                printablestr+='\t'
+                
+                printablestr+=file
+                sys.stdout.write(printablestr)
+                sys.stdout.write('\n')     
+def lshfun():
+        path=os.getcwd()
+        files=os.listdir(path)
+        for file in files:
+                printablestr=""
+                mode=os.stat(file).st_mode
+                perm=''
+                if S_ISDIR(mode):
+                        perm='d'
+                else:
+                        perm='-'
+                s = str(oct(os.stat(file)[stat.ST_MODE])[-3:])
+                permission={'0' :'---', '1' : '--x', '2' : '-w-','3' : '-wx','4':'r--','5':'r-x','6':'rw-','7':'rwx'}
+                userperm=permission[s[0]]
+                groupperm=permission[s[1]]
+                otherperm=permission[s[2]]
+                permstring=perm+userperm+groupperm+otherperm
+                printablestr+=permstring             
+                
+                stlin=str(os.stat(file)[stat.ST_NLINK])
+                printablestr+=stlin
+                printablestr+='\t'
+
+                size= str(os.stat(file).st_size)
+                psize='0'
+                if int(size)<1024:
+                        psize=size+'B'
+                elif int(size)<1048576:
+                        psize=size[0]+'.'+size[1]+'K'
+                elif int(size)>1048576:
+                        psize=size[0]+'.'+size[1]+'GB'
+                
+                printablestr+=psize
+
+                printablestr+='\t'
+
+                modifiedTime=str(time.ctime(os.path.getmtime(file)))
+                printablestr+=modifiedTime
+
+                printablestr+='\t'
+                
+                printablestr+=file
+                sys.stdout.write(printablestr)
+                sys.stdout.write('\n')     

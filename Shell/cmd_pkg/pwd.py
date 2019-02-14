@@ -1,5 +1,8 @@
 import sys
 import os
 def pwdfun():
-    sys.stdout.write(os.getcwd())
+    returnString=os.getcwd()
+    sys.stdout.write(returnString)
     sys.stdout.write('\n')
+    retstring=returnString
+    return retstring

@@ -4,7 +4,8 @@ import shutil
 import pathlib
 import fnmatch
 path=os.getcwd()
-def rm(param):
+def rm(command):
+    param=command[1]
     if '*' not in param:
         removeFile(param)
     if(param == 'r*' ):

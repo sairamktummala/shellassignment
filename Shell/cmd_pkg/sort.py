@@ -8,9 +8,10 @@ def sortfun(file):
             lines.sort()
             for i in lines:
                 strsort+=i
-        sys.stdout.write(strsort)
+        #sys.stdout.write(strsort)
         fil=open(file,'w')
         fil.write(strsort)
+        
 
     else:
         sys.stdout.write('file not found')

@@ -1,6 +1,7 @@
 import os
 import sys
-def removedir(file):
+def removedir(command):
+    file=command[1]
     if os.path.exists(file):
         os.rmdir(file)
     else:

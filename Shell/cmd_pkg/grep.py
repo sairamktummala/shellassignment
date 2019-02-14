@@ -2,7 +2,7 @@ import sys
 import os
 import re
 retstrng = ""
-def grepfun(*args):
+def grepfun(args):
     if(args[1]=='-l'):
         pattern=args[2]
         grepListing(pattern)
