@@ -4,7 +4,7 @@ import shutil
 import pathlib
 import fnmatch
 path=os.getcwd()
-def rm(command):
+def rmfun(command):
     param=command[1]
     if '*' not in param:
         removeFile(param)
@@ -37,3 +37,4 @@ def removeFile(file):
     else:
         sys.stdout.write('file not found')
         sys.stdout.write('\n')
+    

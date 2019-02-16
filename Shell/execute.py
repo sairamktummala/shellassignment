@@ -6,7 +6,7 @@ import multiprocessing
 
 def run_command(command,args=None,flags=None):
     if args:
-        c = threading.Thread(target=command, args=(args))
+        c = threading.Thread(target=command, args=(args,))
     else:
         c = threading.Thread(target=command)
     c.start()
@@ -34,17 +34,17 @@ def executeCommand(cmd,history):
     
     #cat command
     if(cmd[0]=='cat' and background==0):
-        run_command(catfun,(cmd,))
+        run_command(catfun,(cmd))
     if(cmd[0]=='cat' and background==1):
         print('i am getting caleed tough')
-        run_commandInBackground(catfun,(cmd,))
+        run_commandInBackground(catfun,(cmd))
     
     #ls command
     if(cmd[0]=='ls'):
         if(len(cmd)>1 and background==0):
-            run_command(lsflag,(cmd,))
+            run_command(lsflag,(cmd))
         if(len(cmd)>1 and background==1):
-            run_commandInBackground(lsflag,(cmd,))
+            run_commandInBackground(lsflag,(cmd))
         elif len(cmd)==1 and background==1:
             run_commandInBackground(lsfun)
         elif len(cmd)==1 and background==0:
@@ -53,33 +53,33 @@ def executeCommand(cmd,history):
     
     #wc command
     if(cmd[0]=='wc' and background==0):
-        run_command(wcfun,(cmd,))
+        run_command(wcfun,(cmd))
     if(cmd[0]=='wc' and background==1):
-        run_commandInBackground(wcfun,(cmd,))
+        run_commandInBackground(wcfun,(cmd))
     
     #tail command
     if(cmd[0]=='tail' and background==0):
-        run_command(tailfun,(cmd,))
+        run_command(tailfun,(cmd))
     if(cmd[0]=='tail' and background==1):
-        run_commandInBackground(tailfun,(cmd,))
+        run_commandInBackground(tailfun,(cmd))
     
     #head command
     if(cmd[0]=='head' and background==0):
-        run_command(headfun,(cmd,))
+        run_command(headfun,(cmd))
     if(cmd[0]=='head' and background==1):
-        run_commandInBackground(headfun,(cmd,))
+        run_commandInBackground(headfun,(cmd))
     
     #rm command
     if(cmd[0]=='rm' and background==0):
-        run_command(rm,(cmd,))
+        run_command(rmfun,(cmd))
     if(cmd[0]=='rm' and background==1):
-        run_commandInBackground(rm,(cmd,))
+        run_commandInBackground(rmfun,(cmd))
     
     #rmdir command
     if(cmd[0]=='rmdir' and background==0):
-        run_command(removedir,(cmd,))
+        run_command(removedir,(cmd))
     if(cmd[0]=='rmdir' and background==1):
-        run_commandInBackground(removedir,(cmd,))
+        run_commandInBackground(removedir,(cmd))
     
     #pwd function
     if(cmd[0]=='pwd' and background==0):
@@ -89,39 +89,39 @@ def executeCommand(cmd,history):
     
     #mkdir function
     if(cmd[0]=='mkdir' and background==0):
-        run_command(makedir,(cmd,))
+        run_command(makedir,(cmd))
     if(cmd[0]=='mkdir' and background==1):
-        run_commandInBackground(makedir,(cmd,))
+        run_commandInBackground(makedir,(cmd))
 
     #cd function
     if(cmd[0]=='cd' and background==0):
-        run_command(cdfun,(cmd,))
+        run_command(cdfun,(cmd))
     if(cmd[0]=='cd' and background==1):
-        run_commandInBackground(cdfun,(cmd,))
+        run_commandInBackground(cdfun,(cmd))
 
     #mv function
     if(cmd[0]=='mv' and background==0):
-        run_command(mvfun,(cmd,))
+        run_command(mvfun,(cmd))
     if(cmd[0]=='mv' and background==1):
-        run_commandInBackground(mvfun,(cmd,))
+        run_commandInBackground(mvfun,(cmd))
 
     #cp function
     if(cmd[0]=='cp' and background==0):
-        run_command(cpfun,(cmd,))
+        run_command(cpfun,(cmd))
     if(cmd[0]=='cp' and background==1):
-        run_commandInBackground(cpfun,(cmd,))
+        run_commandInBackground(cpfun,(cmd))
 
     #less function
     if(cmd[0]=='less' and background==0):
-        run_command(lessfun,(cmd,))
+        run_command(lessfun,(cmd))
     if(cmd[0]=='less' and background==1):
-        run_commandInBackground(lessfun,(cmd,))
+        run_commandInBackground(lessfun,(cmd))
 
     #grep function
     if(cmd[0]=='grep' and background==0):
-        run_command(grepfun,(cmd,))
+        run_command(grepfun,(cmd))
     if(cmd[0]=='grep' and background==1):
-        run_commandInBackground(grepfun,(cmd,))
+        run_commandInBackground(grepfun,(cmd))
 
     #history
     if(cmd[0]=='history' and background==0):
@@ -131,9 +131,9 @@ def executeCommand(cmd,history):
 
     #sort
     if(cmd[0]=='sort' and background==0):
-        run_command(sortfun,(cmd[1],))
+        run_command(sortfun,(cmd[1]))
     if(cmd[0]=='sort' and background==1):
-        run_commandInBackground(sortfun,(cmd[1],))
+        run_commandInBackground(sortfun,(cmd[1]))
 
     #who
     if(cmd[0]=='who' and background==0):
