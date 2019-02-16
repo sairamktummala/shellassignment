@@ -2,6 +2,7 @@ import sys
 import os
 path = os.getcwd()
 def catfun(cmd):
+    print("called inside cat")
     content=''
     for i in range(1,len(cmd)):
         if os.path.isfile(cmd[i]):
