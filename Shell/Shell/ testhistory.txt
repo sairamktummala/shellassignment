@@ -1,0 +1,4 @@
+grep sample sample.txt
+cat sample.tx
+t
+history 
