@@ -14,16 +14,16 @@ def run_command(command,args=None,flags=None):
 
 def run_commandInBackground(command,args=None,flags=None):
     if args:
-        c = threading.Thread(target=command, args=(args))
+        c = threading.Thread(target=command, args=(args,))
     else:
         c = threading.Thread(target=command)
     c.daemon=True
     c.start()
     
-def executeCommand(cmd,history):
-    history+=cmd
+def executeCommand(command,history,write,writefile):
+    history+=command
     history+=('\n')
-    cmd = cmd.split()
+    cmd = command.split()
     background=0
     if '&' in cmd:
         background=1
@@ -33,119 +33,331 @@ def executeCommand(cmd,history):
         exit()
     
     #cat command
-    if(cmd[0]=='cat' and background==0):
-        run_command(catfun,(cmd))
-    if(cmd[0]=='cat' and background==1):
-        print('i am getting caleed tough')
-        run_commandInBackground(catfun,(cmd))
+    if(cmd[0]=='cat'):
+        if write==0:
+            c = threading.Thread(target=catfun,args=(cmd,))
+            if background==1 :
+                c.daemon=True
+                c.start()
+            
+            elif background==0:
+                c.start()
+                c.join()
+                
+        else:
+            c = threading.Thread(target=catfunwrite,args=(cmd,write,writefile))
+            if background==1 :
+                c.daemon=True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        
     
     #ls command
     if(cmd[0]=='ls'):
-        if(len(cmd)>1 and background==0):
-            run_command(lsflag,(cmd))
-        if(len(cmd)>1 and background==1):
-            run_commandInBackground(lsflag,(cmd))
-        elif len(cmd)==1 and background==1:
-            run_commandInBackground(lsfun)
-        elif len(cmd)==1 and background==0:
-            run_command(lsfun)
+        if write==0:
+            if(len(cmd)>1):
+                c = threading.Thread(target=lsflag,args=(cmd,))
+                if background == 1:
+                    c.daemon==True
+                    c.start()
+                elif background==0:
+                    c.start()
+                    c.join()
+            elif len(cmd)==1:
+                c = threading.Thread(target=lsfun)     
+                if background == 1:
+                    c.daemon==True
+                    c.start()
+                elif background==0:
+                    c.start()
+                    c.join()
+        elif write > 0:
+            if(len(cmd)>1):
+                c = threading.Thread(target=lsflagwrite,args=(cmd,write,writefile))
+                
+                if background == 1:
+                    c.daemon==True
+                    c.start()
+                elif background==0:
+                    c.start()
+                    c.join()
+            elif len(cmd)==1:
+                c = threading.Thread(target=lsfunwrite,args=(write,writefile))
+                
+                if background == 1:
+                    c.daemon==True
+                    c.start()
+                elif background==0:
+                    c.start()
+                    c.join()
+
 
     
     #wc command
-    if(cmd[0]=='wc' and background==0):
-        run_command(wcfun,(cmd))
-    if(cmd[0]=='wc' and background==1):
-        run_commandInBackground(wcfun,(cmd))
+    if cmd[0]=='wc':
+        if write==0 :
+            c = threading.Thread(target=wcfun,args=(cmd,))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=wcfunwrite,args=(cmd,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
     
+
     #tail command
-    if(cmd[0]=='tail' and background==0):
-        run_command(tailfun,(cmd))
-    if(cmd[0]=='tail' and background==1):
-        run_commandInBackground(tailfun,(cmd))
+    if cmd[0]=='tail':
+        if write==0 :
+            c = threading.Thread(target=tailfun,args=(cmd,))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=tailfunwrite,args=(cmd,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
     
     #head command
-    if(cmd[0]=='head' and background==0):
-        run_command(headfun,(cmd))
-    if(cmd[0]=='head' and background==1):
-        run_commandInBackground(headfun,(cmd))
-    
-    #rm command
-    if(cmd[0]=='rm' and background==0):
-        run_command(rmfun,(cmd))
-    if(cmd[0]=='rm' and background==1):
-        run_commandInBackground(rmfun,(cmd))
-    
-    #rmdir command
-    if(cmd[0]=='rmdir' and background==0):
-        run_command(removedir,(cmd))
-    if(cmd[0]=='rmdir' and background==1):
-        run_commandInBackground(removedir,(cmd))
-    
-    #pwd function
-    if(cmd[0]=='pwd' and background==0):
-        run_command(pwdfun)
-    if(cmd[0]=='pwd' and background==1):
-        run_commandInBackground(pwdfun)
-    
-    #mkdir function
-    if(cmd[0]=='mkdir' and background==0):
-        run_command(makedir,(cmd))
-    if(cmd[0]=='mkdir' and background==1):
-        run_commandInBackground(makedir,(cmd))
-
-    #cd function
-    if(cmd[0]=='cd' and background==0):
-        run_command(cdfun,(cmd))
-    if(cmd[0]=='cd' and background==1):
-        run_commandInBackground(cdfun,(cmd))
-
-    #mv function
-    if(cmd[0]=='mv' and background==0):
-        run_command(mvfun,(cmd))
-    if(cmd[0]=='mv' and background==1):
-        run_commandInBackground(mvfun,(cmd))
-
-    #cp function
-    if(cmd[0]=='cp' and background==0):
-        run_command(cpfun,(cmd))
-    if(cmd[0]=='cp' and background==1):
-        run_commandInBackground(cpfun,(cmd))
+    if cmd[0]=='head':
+        if write==0 :
+            c = threading.Thread(target=headfun,args=(cmd,))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=headfunwrite,args=(cmd,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
 
     #less function
     if(cmd[0]=='less' and background==0):
-        run_command(lessfun,(cmd))
-    if(cmd[0]=='less' and background==1):
-        run_commandInBackground(lessfun,(cmd))
+        if write==0 :
+            c = threading.Thread(target=lessfun,args=(cmd,))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=lessfunwrite,args=(cmd,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+
+    #rm command
+    if cmd[0]=='rm':
+        c = threading.Thread(target=rmfun,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+    
+    
+    #rmdir command
+    if cmd[0]=='rmdir':
+        c = threading.Thread(target=removedir,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+    
+    #mkdir function
+    if cmd[0]=='mkdir':
+        c = threading.Thread(target=makedir,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+    
+    
+    #cd function
+    if cmd[0]=='cd':
+        c = threading.Thread(target=cdfun,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+    
+    #mv function
+    if cmd[0]=='mv':
+        c = threading.Thread(target=mvfun,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+
+    #cp function
+    if cmd[0]=='cp':
+        c = threading.Thread(target=cpfun,args=(cmd,))
+        if background == 1:
+            c.daemon==True
+            c.start()
+        elif background==0:
+            c.start()
+            c.join()
+    
+    
+    #pwd function
+    if cmd[0]=='pwd':
+        if write==0 :
+            c = threading.Thread(target=pwdfun)
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=pwdwrite,args=(write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+    
+    
 
     #grep function
-    if(cmd[0]=='grep' and background==0):
-        run_command(grepfun,(cmd))
-    if(cmd[0]=='grep' and background==1):
-        run_commandInBackground(grepfun,(cmd))
+    if cmd[0]=='grep':
+        if write==0 :
+            c = threading.Thread(target=grepfun,args=(cmd,))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=grepfunwrite,args=(cmd,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+    
 
     #history
-    if(cmd[0]=='history' and background==0):
-        run_command(historyfun(cmd,history))
-    if(cmd[0]=='history' and background==1):
-        run_commandInBackground(historyfun(cmd,history))
+    if cmd[0]=='history':
+        if write==0 :
+            c = threading.Thread(target=historyfun,args=(cmd,history))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=historyfunwrite,args=(cmd,history,write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
 
     #sort
-    if(cmd[0]=='sort' and background==0):
-        run_command(sortfun,(cmd[1]))
-    if(cmd[0]=='sort' and background==1):
-        run_commandInBackground(sortfun,(cmd[1]))
+    if cmd[0]=='sort':
+        if write==0 :
+            c = threading.Thread(target=sortfun,args=(cmd[1],))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=sortfunwrite,args=(cmd[1],write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
 
     #who
-    if(cmd[0]=='who' and background==0):
-        run_command(whofun)
-    if(cmd[0]=='who' and background==1):
-        run_commandInBackground(whofun)
+    if cmd[0]=='who':
+        if write==0 :
+            c = threading.Thread(target=whofun)
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
+        elif write>0:
+            c = threading.Thread(target=whofunwrite,args=(write,writefile))
+            if background == 1:
+                c.daemon==True
+                c.start()
+            elif background==0:
+                c.start()
+                c.join()
 
 if __name__ == '__main__':
     history=[]
     while True:
         cmd = input('% ')
-        if '|' in cmd or '<' in cmd or '>' in cmd or '>>' in cmd:
+        if '|' in cmd :
             sys.stdout.write('idi done')
         else:
-            executeCommand(cmd,history)
+            write=0
+            command=""
+            if '>>' in cmd:
+                
+                cmd=cmd.split('>>')
+                write=2
+                command=cmd[0]
+                file=cmd[1]
+                executeCommand(command,history,write,file)
+            elif '>' in cmd:
+                
+                write=1
+                cmd=cmd.split('>')
+                command=cmd[0]
+                file=cmd[1]
+                executeCommand(command,history,write,file)
+            else :
+                executeCommand(cmd,history,write,cmd)
+            
+        if cmd == 'exit':
+            exit()

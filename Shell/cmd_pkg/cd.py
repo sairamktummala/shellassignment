@@ -9,7 +9,6 @@ def cdfun(command):
             cdfun1()
         else:
             cdfun3(command[1])
-
     else:
         cdfun1()
         

@@ -8,10 +8,11 @@ def rmfun(command):
     param=command[1]
     if '*' not in param:
         removeFile(param)
-    if(param == 'r*' ):
-        removeAllFilesInDirectory()
-    if ('*' in param):
+    elif ('*' in param):
         removeSpecificFiles(param)
+    elif(param == 'r*' ):
+        removeAllFilesInDirectory()
+    
     
 def removeAllFilesInDirectory():
     currentDirectory=pathlib.Path('.')
