@@ -1,15 +1,7 @@
 import sys
 import os
-#if the tail has no count
-def tailfun(command):
-    if os.path.isfile(command[2]):
-        if len(command)>2 :
-            tailfun2(command[2],command[1])
-        else:
-            tailfun1(command[1])
-    else:
-        sys.stdout.write(command[2]) 
-        sys.stdout.write("no such file exists")
+import re
+
 
 def tailfun1(file):
     linelist = []
@@ -39,15 +31,6 @@ def tailfun2(file,count):
   
 
   #write functions
-def tailfunwrite(command,write,writefile):
-    if os.path.isfile(command[2]):
-        if len(command)>2 :
-            tailfun2write(command[2],command[1],write,writefile)
-        else:
-            tailfun1write(command[1],write,writefile)
-    else:
-        sys.stdout.write(command[2]) 
-        sys.stdout.write("no such file exists")
 
 def tailfun1write(file,write,writefile):
     linelist = []

@@ -13,12 +13,18 @@ def rmfun(command):
         elif ('*' in param):
             removeSpecificFiles(param)
     else:
-        if '-rt' in command:
+        if '-rf' in command:
             removeAllFilesInDirectory(command[2])
     
     
 def removeAllFilesInDirectory(file):
-    shutil.rmtree(file)
+    if os.path.isdir(file):
+        shutil.rmtree(file)
+    else:
+        sys.stdout.write('rm: cannot remove ')
+        sys.stdout.write(file)
+        sys.stdout.write(':does not exist')
+        sys.stdout.write('\n')
         
 def removeSpecificFiles(param):
     Filesindirectory=os.listdir('.')

@@ -1,9 +1,12 @@
 import sys
 
 def historyfun(cmd,history):
+    
     stringhistory=""
     for i in history:
         stringhistory+=i
+        stringhistory+="\n"
+
     sys.stdout.write(stringhistory)
 
 

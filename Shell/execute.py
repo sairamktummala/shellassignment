@@ -15,8 +15,6 @@ import multiprocessing
  
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 def executeCommand(command,history,write,writefile):
-    history+=command
-    history+=('\n')
     cmd = command.split()
     background=0
     
@@ -123,7 +121,18 @@ def executeCommand(command,history,write,writefile):
         #tail command
         if cmd[0]=='tail':
             if write==0 :
-                c = threading.Thread(target=tailfun,args=(cmd,))
+                if len(cmd) > 2:
+                    if '-n' in cmd[1]:
+                        filename=cmd[2]
+                        countstr=str(cmd[1])
+                        count=int(countstr[2:])
+                    elif '-n' in cmd[2]:
+                        filename = cmd[1]
+                        countstr=str(cmd[2])
+                        count=int(countstr[2:])
+                    c=threading.Thread(target=tailfun2,args=(filename,count))
+                elif len(cmd)==2:
+                    c = threading.Thread(target=tailfun1,args=(cmd[1],))
                 if background == 1:
                     c.daemon==True
                     c.start()
@@ -131,7 +140,19 @@ def executeCommand(command,history,write,writefile):
                     c.start()
                     c.join()
             elif write>0:
-                c= threading.Thread(target=tailfunwrite,args=(cmd,write,writefile))
+                
+                if len(cmd) > 2:
+                    if '-n' in cmd[1]:
+                        filename=cmd[2]
+                        countstr=str(cmd[1])
+                        count=int(countstr[2:])
+                    elif '-n' in cmd[2]:
+                        filename = cmd[1]
+                        countstr=str(cmd[2])
+                        count=int(countstr[2:])
+                    c=threading.Thread(target=tailfun2write,args=(filename,count,write,writefile))
+                elif len(cmd)==2:
+                    c = threading.Thread(target=tailfun1write,args=(cmd[1],write,writefile))
                 if background == 1:
                     c.daemon==True
                     c.start()
@@ -142,7 +163,18 @@ def executeCommand(command,history,write,writefile):
         #head command
         if cmd[0]=='head':
             if write==0 :
-                c = threading.Thread(target=headfun,args=(cmd,))
+                if len(cmd) > 2:
+                    if '-n' in cmd[1]:
+                        filename=cmd[2]
+                        countstr=str(cmd[1])
+                        count=int(countstr[2:])
+                    elif '-n' in cmd[2]:
+                        filename = cmd[1]
+                        countstr=str(cmd[2])
+                        count=int(countstr[2:])
+                    c=threading.Thread(target=headfun2,args=(filename,count))
+                elif len(cmd)==2:
+                    c = threading.Thread(target=headfun1,args=(cmd[1],))
                 if background == 1:
                     c.daemon==True
                     c.start()
@@ -150,14 +182,25 @@ def executeCommand(command,history,write,writefile):
                     c.start()
                     c.join()
             elif write>0:
-                c = threading.Thread(target=headfunwrite,args=(cmd,write,writefile))
+                if len(cmd) > 2:
+                    if '-n' in cmd[1]:
+                        filename=cmd[2]
+                        countstr=str(cmd[1])
+                        count=int(countstr[2:])
+                    elif '-n' in cmd[2]:
+                        filename = cmd[1]
+                        countstr=str(cmd[2])
+                        count=int(countstr[2:])
+                    c=threading.Thread(target=headfun2write,args=(filename,count,write,writefile))
+                elif len(cmd)==2:
+                    c = threading.Thread(target=headfun1write,args=(cmd[1],write,writefile))
                 if background == 1:
                     c.daemon==True
                     c.start()
                 elif background==0:
                     c.start()
                     c.join()
-
+                
         #less function
         if(cmd[0]=='less' and background==0):
             if write==0 :
@@ -305,14 +348,14 @@ def executeCommand(command,history,write,writefile):
                 elif background==0:
                     c.start()
                     c.join()
-                elif write>0:
-                    c = threading.Thread(target=sortfunwrite,args=(cmd[1],write,writefile))
-                    if background == 1:
-                        c.daemon==True
-                        c.start()
-                    elif background==0:
-                        c.start()
-                        c.join()
+            elif write>0:
+                c = threading.Thread(target=sortfunwrite,args=(cmd[1],write,writefile))
+                if background == 1:
+                    c.daemon==True
+                    c.start()
+                elif background==0:
+                    c.start()
+                    c.join()
 
         #who
         if cmd[0]=='who':
@@ -343,90 +386,107 @@ def executeCommand(command,history,write,writefile):
 
 #main function
 if __name__ == '__main__':
-    #let history be list which store the commnds history
-    history=[]
+    #let rawcmd be list which store the commnds history
+    rawcmd=[]
+    temphistory=[]
     #the commands implemented in the shell are taken into args
     args=('cat','cd','chmod','cp','exit','grep','head','history','less','ls','mkdir','mv','pwd','rm','rmdir','who','wc','tail','sort')
     #run till true
     while True:
+        
         #have a % symbol during the input
         cmd = input('% ')
-        #checkcmd have the split version of the command it helps us to check wether the command implemented or not
-        checkcmd = cmd.split()
-        ccommand=checkcmd[0]
+        rawcmd.append(cmd)
         
-        #if the command is implemented
-        if ccommand in args:
-            #if piping is present
-            if '|' in cmd :
-                #the output of first command before pipe is redirected to a file called result
-                write=1
-
-                #split the commands and store each individual command in commandlist
-                commandlist=cmd.split('|')
-
-                #check how many command are there in pipe
-                last = len(commandlist)-1
-
-                #strip the empty places around the command
-                command1 = commandlist[0].strip()
-
-                #let the output be redirected to a result.txt file
-                tempfile='result.txt'
-
-                #execute the first command
-                executeCommand(command1,history,1,tempfile)
-                first = 1
-                #if there are more than two commands then the while loop lets us executing the commands inbetween
-                while first < last :
-                    #execute the command in order
-                    commandtemp=commandlist[first].strip()
-                    tempcheck=commandtemp.split()
-                    if tempcheck[0] in args:
-                        commandtemp+=' '
-                        commandtemp+=tempfile
-                        executeCommand(commandtemp,history,1,tempfile)
-                        first+=1
-                    else:
-                        print('bash: ',commandtemp,': command not found')
-                #finally execute the las command and write the output on console
-                commandlast = commandlist[last].strip()
-                temcom=commandlast.split()
-                if temcom[0] in args:
-                    commandlast+=' '
-                    commandlast+=tempfile
-                    executeCommand(commandlast,history,0,cmd)
-                else:
-                    print('bash: ',commandlast,': command not found')
-            
-            
-            #if there is not piping in between the commands
+        if '!' in cmd:
+            number=int(cmd[1])
+            if number < len(rawcmd):
+                cmd=rawcmd[number]
             else:
-                
-                write=0
-                command=""
-                #the commands result is appended to a specified file
-                if '>>' in cmd:
-                    cmd=cmd.split('>>')
-                    write=2
-                    command=cmd[0]
-                    file=cmd[1]
-                    executeCommand(command,history,write,file)
-                elif '>' in cmd:
-                    write=1
-                    cmd=cmd.split('>')
-                    command=cmd[0]
-                    file=cmd[1]
-                    executeCommand(command,history,write,file)
-                elif '<' in cmd:
-                    tempcommandlist = cmd.split('<')
-                    tempcommand = tempcommandlist[0]
-                    tempfilename = tempcommandlist[1].strip()
-                    finalcommand = tempcommand + tempfilename
-                    executeCommand(finalcommand,history,0,cmd)
-                else :
-                    executeCommand(cmd,history,write,cmd)
-        else:
-            
-            print('bash: ',ccommand,': command not found')
+                print('History not available for that number')
+
+        checkarg = cmd.split()
         
+        if 'exit' in cmd:
+            sys.exit() 
+        
+        specialchar=('<','>','>>','|')
+        tempfile="output.txt"
+        if '>' in cmd or '>>' in cmd:
+            if '>>' in cmd:
+                tempcommand=cmd.split('>>')
+                appendfile=tempcommand[1]
+                if '|' in cmd:
+                    tempgrepcommands = tempcommand[0]
+                    grepcommands = tempgrepcommands.split('|')
+                    first=0
+                    for i in grepcommands:
+                        i=i.strip()
+                        first+=1
+                        if first == 1:
+                            executeCommand(i,rawcmd,1,"output.txt")
+                            i=" "
+                        else:
+                            i+=" "
+                            i+=tempfile
+                            executeCommand(i,rawcmd,1,"output.txt")
+                            i=" "
+                    printstr=""
+                    with open("output.txt",'r') as r:
+                        lines=r.readlines()
+                        for line in lines:
+                            printstr+=line
+                    with open(appendfile,'w') as f:
+                        f.write(str(printstr))
+                else:
+                    executeCommand(tempcommand[0],rawcmd,2,tempcommand[1])
+
+            elif '>' in cmd:
+                tempcommand1=cmd.split('>')
+                writefile=tempcommand1[1]
+                if '|' in cmd:
+                    tempgrepcommands1 = tempcommand1[0]
+                    grepcommands1 = tempgrepcommands1.split('|')
+                    first=0
+                    for i in grepcommands1:
+                        i=i.strip()
+                        first+=1
+                        if first == 1:
+                            executeCommand(i,rawcmd,1,"output.txt")
+                            i=" "
+                        else:
+                            i+=" "
+                            i+=tempfile
+                            executeCommand(i,rawcmd,1,"output.txt")
+                            i=" "
+                    printstr=""
+                    with open("output.txt",'r') as r:
+                        lines=r.readlines()
+                        for line in lines:
+                            printstr+=line
+                    with open(writefile,'w') as f:
+                        f.write(str(printstr))
+                else:
+                    executeCommand(tempcommand1[0],rawcmd,1,tempcommand1[1])
+        elif '|' in cmd:
+            grepcomm = cmd.split('|')
+            commlength=len(grepcomm)
+            firstcommand=grepcomm[0]
+            lastcommand=grepcomm[commlength-1]
+            for i in grepcomm:
+                if i == firstcommand:
+                    i=i.strip()
+                    executeCommand(i,rawcmd,1,"output.txt")
+                elif i== lastcommand:
+                    i+=" "
+                    i+="output.txt"
+                    executeCommand(i,rawcmd,0,"output.txt")
+                else:
+                    i+=" "
+                    i+="output.txt"
+                    executeCommand(i,rawcmd,1,"output.txt")        
+        elif checkarg[0] in args:
+            executeCommand(cmd,rawcmd,0,cmd)
+        
+        else:
+            print(checkarg[0],'command not found')

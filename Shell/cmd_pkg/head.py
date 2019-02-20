@@ -1,9 +1,7 @@
 import sys
-def headfun(command):
-        if len(command)>2 :
-                headfun2(command[2],command[1])
-        else:
-                headfun1(command[1])
+import os
+import re
+
 
 def headfun1(file):
     linelist = []
@@ -27,12 +25,7 @@ def headfun2(file,count):
     for l in linelist:
         sys.stdout.write(l)  
 
-#write begins here
-def headfunwrite(command,write,writefile):
-        if len(command)>2 :
-                headfun2write(command[2],command[1],write,writefile)
-        else:
-                headfun1write(command[1],write,writefile)
+
 
 def headfun1write(file,write,writefile):
     linelist = []
@@ -48,6 +41,7 @@ def headfun1write(file,write,writefile):
     
     writefile=writefile.strip()
     if(write==1):
+        print('inside write')
         with open(writefile, 'w') as f:
             f.write(returnstri)
     elif(write==2):

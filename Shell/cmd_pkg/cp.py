@@ -5,6 +5,8 @@ path=os.getcwd()
 def cpfun(command):
     file1=command[1]
     file2=command[2]
+    file1=file1.strip()
+    file2=file2.strip()
     #check if file1 is present or not
     if os.path.isfile(file1):
         shutil.copyfile(file1,file2)
