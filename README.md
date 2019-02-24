@@ -31,8 +31,8 @@
 |   sort    | sorts data in alphabetical order     |           |         |
 |   who     | lists users currently logged in      |           |         |
 |  history  | shows history of all commands        |           |         |
-|  !x       |  loads the command we ran before     |           |         |
-|   chmod   |    changes modify permission         |           |         |
+|  !x       |  loads the command we ran before     | saikiran  |         |
+|   chmod   |    changes modify permission         | saikiran  |         |
 
 
 **References:**
