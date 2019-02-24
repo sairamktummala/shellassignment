@@ -1,16 +1,16 @@
-**2/20/2019
+**2/20/2019**
 
-**5143 Shell Project
+**5143 Shell Project**
 
-**Group members
+**Group members**
 
 SAIKIRAN PALIMPATI
 
 SAI RAMA KRISHNA TUMMALA
 
-**Overview:
+**Overview:**
 
-**Commands:
+**Commands:**
 
 |  command  |           description                |  author   |  notes  |
 |-----------|--------------------------------------|-----------|---------|
@@ -35,6 +35,6 @@ SAI RAMA KRISHNA TUMMALA
 |   chmod   |    changes modify permission         |           |         |
 
 
-**References:
+**References:**
 
 
