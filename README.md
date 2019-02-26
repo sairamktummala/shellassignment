@@ -10,6 +10,8 @@
 
 **Overview:**
 
+This is a project written in python that implements a basic shell. We have implemented various commands like ls, grep, wc etc.
+
 
 
 
