@@ -41,5 +41,6 @@ This is a project written in python that implements a basic shell. We have imple
 
 
 **References:**
--https://github.com/rugbyprof/5143-Operating-Systems/blob/master/Resources/ls_command.md
+
+- https://github.com/rugbyprof/5143-Operating-Systems/blob/master/Resources/ls_command.md
 
