@@ -23,14 +23,14 @@ This is a project written in python that implements a basic shell. We have imple
 |   mkdir   |      making a directory              |  sairam   |         |
 |    cd     |    change to home directory          |  sairam   |         |
 |   pwd     |    displaying current directory      |  sairam   |         |
-|   cp      |      copying file1 to file2          |  saikiran |         |
+|   cp      |      copying file1 to file2          |  sairam   |         |
 |   mv      |    renaming file1 to file2           |  sairam   |         |
-|   rm      |       removing a file                |  sairam   |         |
+|   rm      |       removing a file                |  saikiran |         |
 |   rmdir   |    removing a directory              |  sairam   |         |
 |   cat     |   displaying a file                  |  saikiran |         |
 |   less    |   display a file page at a time      |  saikiran |         |
 |   head    |   display first few lines of a file  |  saikiran |         |
-|   tail    |   display last few lines of a file   | saikiran  |         |
+|   tail    |   display last few lines of a file   |  saikiran |         |
 |   grep    |   search files for keywords          |  saikiran |         |
 |    wc     |count lines/characters/words in a file|  sairam   |         |
 |   sort    | sorts data in alphabetical order     |  sairam   |         |
